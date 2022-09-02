@@ -1,0 +1,121 @@
+
+I'm not keeping detailed notes as most of the beginning is very basic.
+Like can you read a file or parse it.
+
+Some notes on the first ones, like some tools I am less familiar with.
+
+strings $file   -  lists out each white space separated string it seems
+xxd $file       -  get hexdump of file or use -r to get reverse of hexdump
+rot13           -  rotate 13 ceasar/shift cipher, use tr to swap chars "A-Za-z" -> "N-ZA-Mn-za-m"
+file $file      -  get type of the file - used to know which type of compression used (gzip, bzip, tar)
+
+Starting level based notes as things are more complicated at level 13
+
+lvl 13 - given ssh private key - get by sftp to local machine
+lvl 14 - pass given passwd to port 30000 on telnet -> got passwd from connection BfMYroe26WYalil77FoDi9qh59eK5xNr
+lvl 15 - pass current pass to port 30001 with ssl -> openssl s_client command -> cluFn7wTiGryunymYOu4RcffSxQluehd
+lvl 16 - use nmap to find open ports on localhost and s_client to find ones using ssl -> get private key
+lvl 17 - give passwd files old and new -> use diff to compare -> line 42 different -> kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+lvl 18 - .bashrc logs you out on ssh -> have ssh run cmd to print password from file -> IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+    - command - ssh -p2220 bandit18@bandit.labs.overthewire.org cat ~/readme 
+    - could also modify/mv .bashrc if I had write permissions
+
+lvl 19 - given setuid binary to run cmd as next level user -> get passwd from /etc/bandit_pass 
+    - command - ./bandit20-do cat /etc/bandit_pass/bandit20
+    - GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+lvl 20 - given suconnect that needs to connect to port via and read current password
+    - nc -l -p 12345 localhost -c "echo GbKksEFF4yrVs6il55v6gwY5aVje5f0j" &
+    - ./suconnect 12345
+    - Gave correct output but did not print password
+    - Correct - nc -l -p 12345 localhost & - then send password manual switching between commands or use tmux
+    - gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+
+lvl 21 - crontab has command running - /etc/cron.d/
+    - For 22 see this cron setup 
+        - @reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+        - * * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+    - Exports bandit22 password to /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+    - Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+
+lvl 22 - Has cron setup same way as 21
+    - Read shell script
+    - find that it exports passwd to tmp file with hash of "I am user bandit23"
+    - jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+
+lvl 23 - Writting a shell script to be excuted by cron I think 
+    - Executes all scripts in /var/spool/$whoami - so bandit24
+        - Then deletes them
+    - bad permissions on the system - drwxrwx-wx
+    - Can copy and write file to this directory - so can create one to export file
+    - Script runs this - cat /etc/bandit_pass/bandit24 >> /tmp/nonsense2/passwd 
+    - UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+
+lvl 24 - bruteforcing pin code added to current password
+    - Write a shell script to telnet to 
+    - First try - for i in {0..9999}; do nc localhost 30002 -c "printf \"UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ%04d\n\" $i"; done 
+        - Gave no output - quits before getting response
+    - Second try - nc passing for loop in -c - did not work either
+    - Third try - Works! - Pass all lines of output to nc 
+        - for i in {0..9999}; do printf "UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ %04d\n" $i; done | nc localhost 30002
+    - uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+
+lvl 25 - Gives ssh key but user logs in to /usr/bin/showtext in passwd
+    - showtext just runs more text.txt
+    - v in more gives access to editor
+    - Can shrink terminal to smaller than text file to have it pause printing via more
+    - Press v and then can get password - 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+    - Still need to get shell access
+    - In vim, :set shell=/bin/sh
+    - :shell
+
+lvl 26 - Now, I have shell access and ./bandit27-do command
+    - 3ba3118a22e93127a4ed485be72ef5ea
+    - easy using command now with shell
+
+lvl 27 - Just git cloning repo to get access 
+    - 0ef186ac70e04ea33b4c1853d2526fa2
+
+lvl 28 - Revert a repote to previous commit where information was leaked 
+    - bbc96594b4e001778eee9975372716b2
+    - git log - gets commits
+    - git checkout c086d11a00c0648d095d04c089786efef5e01264
+
+lvl 29 - Find remote branches 
+    - git branch -vva - list a few branches dev and sploit-dev
+    - git checkout remotes/origin/dev 
+    - 5b90576bedb2cc04c86a9e924ce42faf
+
+lvl 30 - Git tagging - Not commits leaking information
+    - git tag - shows a tag called secret
+    - git show secret - gives 47e603bb428404d265f59c42920d81e5
+    - git for-each-ref refs/tags/$TAG 
+        - f17132340e8ee6c159e0a4a6bc6f80e1da3b1aea blob	refs/tags/secret
+        - Looks like their is another commit? 
+    - 47e603bb428404d265f59c42920d81e5 <- This is the passwd
+
+lvl 31 - Push a file to a remote repo
+    - key.txt
+    - Content - May I come in?
+    - git add -f key.txt - *.txt is in ignore 
+    - git commit and push
+    - 56a9bf19c63d650ce78e6ec0354ee45e - returned by git command
+
+lvl 32 - Uppercase shell login - last level available as of now
+    - Passwd shows login as /home/bandit32/uppershell
+    - All text is taken as uppercase
+    - I tried to halt the running process via ctrl-z or ctrl-] but nothing
+    - I have no idea - how this is done
+    - Looked up an answer - $0 
+    - $0 runs the first argument of the command
+    - Shell design must be C code that takes text, uppercases it, 
+    - Passes uppercase it to arguments of /bin/sh executable
+    - This means $0 gets passed to sh and tells sh to run sh
+    - Escapes uppercaseshell to sh 
+    - Interesting to see this example - of a way to escape things that pass to shells
+    - Setuids to bandit33 
+    - So just read their passwd file
+    - c9c3199ddf4121b10cf581a98d51caee
+
+
+
