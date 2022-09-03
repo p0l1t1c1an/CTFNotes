@@ -1,6 +1,9 @@
 
 Web security - Basic I think 
 
+I this is a new one for natas as they updated the passwords in the middle of me doing this and I have to redo everything
+I don't understand the reason why
+
 Goal is to get passwords from /etc/natas_webpass/ through web interface
 Each page you have to get login info that may be shown or access the password directory
 
@@ -9,14 +12,14 @@ Hints without answers: https://onestepcode.com/no-solution-natas-guide-overthewi
 Start login - natas0 - natas0
 
 lvl0 - The password is in html comments - This shit has happened though - I remember some page have people's PII commented
-     - gtVrDuiDfck831PqWsLEZy5gyDz1clto
+     - g9D9cREhslqBKtcA2uocGHPfMZVzeFK6
 
 lvl1 - Right click blocked - Press Ctrl-Shift-C or f12
-     - ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi 
+     - h4ubbcXrWqsTo7GGnnUMLppXbOogfBZ7
 
 lvl2 - show /files directory via image given
      - users.txt file found containing multiple passwords
-     - sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
+     - G6ctbMJ5Nb4cbFwhpMPSvxGHhQ7I6W8Q
 
 lvl3 - Says No more info leak. Not even google will find it. 
      - No idea what this meant - I guess something with webscrapping
@@ -25,19 +28,19 @@ lvl3 - Says No more info leak. Not even google will find it.
      - Says what won't a webcrawler find -> robots.txt
      - robots.txt file shows /s3cr3t directory
      - Why doesn't wget recursively get this?
-     - Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
+     - tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm
 
 lvl4 - Access denied - need to redirect from natat5. 
      - How do I fake my redirect from?
      - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
      - Referer in http header says where we are coming from
      - wget -> set --referer=http://natas5.natas.labs.overthewire.org/ 
-     - iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+     - Z0NsrtIkJoKALBCLi5eqFfcRN82Au2oD
 
 lvl5 - view storage in dev mode in chrome
      - loggedin cookies created - has value of 0
      - set value to 1
-     - aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
+     - fOIvE0MDtPTgRhqmmvvAOt2EfXR6uQgR
 
 lvl6 - has Input secret with submit button
      - put in pass - got wrong secret 
@@ -45,7 +48,7 @@ lvl6 - has Input secret with submit button
      - has basic passwd check 
      - loads text from submitted value and some "includes/secret.inc"
      - secret = "FOEIUWGHFEEUHOFUOIU" as file is viewable from get request 
-     - 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
+     - jmxSiH3SP6Sonf8dv66ng8v1cIEdjXWr
 
 lvl7 - gives me home and about page
      - These are index.php?page=home or page=about
@@ -54,7 +57,7 @@ lvl7 - gives me home and about page
      - Failed opening /etc for inclusion include_path='.:/usr/share/php:/usr/share/pear'
      - set page=/etc/natas_webpass/natas8 
      - Not sure why directories fail include in php may only be files - This is true
-     - DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe
+     - a6bZCNYwdKqN5cGP11ZdtPg0iImQQhAB 
 
 lvl8 - another level 6 with source code
      - Gives encoded secret in code
@@ -62,7 +65,7 @@ lvl8 - another level 6 with source code
      - encoding is base64 -> string reverse -> bin2hex
      - encoded secret == 3d3d516343746d4d6d6c315669563362
      - decoded secret == oubWYf2kBq
-     - W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl
+     - Sda6t0vkOPkM8YeOZkAGVhFoaplvlJFd
 
 lvl9 - find words containing with search input
      - gives source code
@@ -73,53 +76,59 @@ lvl9 - find words containing with search input
         - I don't know why - probably php thing I don't know
      - empty "" gives me everything in dictionary
      - passed "" /etc/natas_webpass/natas10 to get it to print both files
-     - nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu
+     - D44EcsFkLxPIkAAKLosx8z3hxX1Z4MCE
 
 lvl10 - Same exact thing
       - I think intended solution for previous is too pass semicolon ; or &&
       - Then can run another command to cat files
       - Now replaces ; or & with empty "" - to force? (maybe) the use of grep
-      - U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
-
+      - 1KFqoJXi6hRaPluAmk8ESDW4fSysRoIg
 
 lvl11 - Cookies are protected with XOR encryption and gives backcolor setting input with source code
       - xor key hidden
-      - Cookie value = ClVLIh4ASCsCBE8lAxMacFMZV2hdVVotEhhUJQNVAmhSEV4sFxFeaAw
-      - Decoded value = UK"H+O%pSWh]UZ-T%UhR^,^h7
-      - Should be json format so U -> { and 7 -> }
-      - This is 01010101 to 01111011 so key of 00101110 which is 0x2E or .
-      - This is 00110111 to 01111101 so key of 01001010 which is 0x4A or J
-      - Then will contain showpassword and bgcolor
-      - K to s - 01001011 -> 01110011 - key == 00111000 / 0x38
-      - " to h - 00100010 -> 01101000 - key == 01001010 / 0x4A -- this repeats with one above 
-      
-      - Decode bad -> raw bytes instead
-        0a 55 4b 22 1e 00 48 2b 02 04 4f 25 03 13 1a 70 53 19 57 68 
-        5d 55 5a 2d 12 18 54 25 03 55 02 68 52 11 5e 2c 17 11 5e 68 0c
-      - 0a -> { (7B) - Key == 71
-      - 0c -> } (7D) - Key == 71
-      - 55 -> s (73) - Key == 26
-      - 4b -> h (68) - Key == 23
-      - 22 -> o (6F) - Key == 4D
-      - 1e -> w (77) - Key == 69
-      - 00 -> p (70) - Key == 70
-      - 48 -> a (61) - Key == 29
-      - 2b -> s (73) - Key == 58
-      - 02 -> s (73) - Key == 71
-      - 04 -> w (77) - Key == 73
-      - 4f -> o (6F) - Key == 20
-      - 25 -> r (72) - Key == 57
-      - 03 -> d (64) - Key == 67
-      - 13 -> : (3A) - Key == 29
-
-      - Too much - and I messed it up 
-      - Wrote python script instead
-      - findxor.py -> key is 0x7177384A
-      - Use to create new value of cookie in base64 -> ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK 
-      - EDXp0pS26wLKHZy1rDBPUZk0RKfLGIR3
+      - Cookie value = MGw7JCQ5OC04PT8jOSpqdmkgJ25nbCorKCEkIzlscm5oKC4qLSgubjY
+      - Used python scrip tI already made for this 
+      - findxor.py -> key is 0x4b4e484c
+      - Use to create new value of cookie in base64 -> MGw7JCQ5OC04PT8jOSpqdmk3LT9pYmouLC0nICQ8anZpbS4qLSguKmkz
+      - YWqo0pjpcXzSIl5NMAVxg12QxeC1w9QG
 
 lvl12 - Uploading images -- interesting 
+      - Source has random alphanumeric generator length 10
+      - Makes path with 10 length string and file
+      - Found hidden max file size and file name 
+      - Setting file name extension sets uploaded file extension
+      - Made two php files and uploaded them
+      - One is prints directory contents to see if I could read the webpass directory
+      - Other is for reading the nata13 password file
+      - lW3jYRI02ZKDBb8VtQBU1f6eDRo6WEj9 
 
+lvl13 - Same as 12 now using exif_imagetype to check file 
+      - Thought is to prepend php code with jpeg header
+      - https://gist.github.com/leommoore/f9e57ba2aa4bf197ebc5
+      - Used same php with jpeg magic number prepended
+      - qPazSJBmrmU7UQJv17MHk1PGC4DxZMEP
+
+lvl14 - Login system using SQL in PHP
+      - Has debug mode
+      - https://stackoverflow.com/questions/1833330/how-to-get-php-get-array 
+      - Got debug working with changing form to have ?debug appended to the action
+      - PHP concat isn't how I thought it worked 
+      - Tried setting password to the following
+      - "; $query = "SELECT * from users where username = "natas14
+        - Was thinking this would overwrite query command
+        - No so just invalid sql is passed
+      - Figured it out: https://www.w3schools.com/sql/sql_and_or.asp
+      - Set password to the following
+        - Using the logic operators
+        - " or not password="no
+      - TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB
+
+lvl15 - Similar but no login 
+      - Just checking if user exists
+      - Not sure where password is at first glance
+      - try getting info by pattern matching 
+      - something like natas16" and password like "...
+        - for username entry
 
 
 
