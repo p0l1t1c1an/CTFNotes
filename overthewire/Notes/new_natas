@@ -125,14 +125,39 @@ lvl14 - Login system using SQL in PHP
 
 lvl15 - Similar but no login 
       - Just checking if user exists
+      - Natas16 exists
       - Not sure where password is at first glance
+      - https://www.w3schools.com/SQL/sql_like.asp
       - try getting info by pattern matching 
       - something like natas16" and password like "...
         - for username entry
+      - Gonna brute force this 
+      - Can send request through url
+      - Writting python script to just brute force passwd
+      - All contained chars: [a, d, f, g, i, j, k, l, q, r, u, A, D, E, H, O, P, R, T, V, Z, 2, 3, 5, 7, 9]
+      - TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V
 
+lvl16 - 9 and 10 but with filtering on input
+      - bUt how can we pass it if I can't make grep print the password file
+      - it is not filtering $ or () so I should be able to spawn a subshell
+        - maybe write to a file and then use that 
+        - https://unix.stackexchange.com/questions/118247/echo-bytes-to-a-file
+        - Echo bytes to a file that has a quote and then can escape 
+        - Nope, I'm stupd or my BS is high, but obviously that wouldn't get considered a quote
+      - $(cat /etc/natas_webpass/natas17 > dictionary.txt)
+        - did not work, I'm guess the dictionary file is not writable or root owned
+      - What information can we pull from the file
+        - Basically nothing. A command can pull little information
+        - Like if a command suceeds and prints nothing the entire dictionary is printed
+        - I could try bruteforcing the password by checking it with grep
+        - I will clone my previous code and do it again with grep
+    - ^ marks the beginning of line
+    - Code does same as 15's but uses grep 
+    - XkEuChE0SbnKBvH1RU7ksIb9uuLmI7sd
 
-
-
+lvl17 - exact same as 15 but the this user exists message has been removed 
+      - It gives no output so how do we check if password is correct pattern match
+      
 
 
 
