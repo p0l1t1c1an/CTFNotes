@@ -157,7 +157,24 @@ lvl16 - 9 and 10 but with filtering on input
 
 lvl17 - exact same as 15 but the this user exists message has been removed 
       - It gives no output so how do we check if password is correct pattern match
-      
+      - So the text printed out by the debugger comes back as html
+      - I can then run scripts using <script> block
+      - Trying to see if I can get php variables from Javascript
+      - https://stackoverflow.com/questions/415868/get-variable-from-php-to-javascript
+      - This does not seem to work as the browser has no way to interpret the php 
+      - Used hint: Is it possible to make queries take longer based on the query results?
+      - Had to learn a lot of SQL 
+      - https://stackoverflow.com/questions/15683185/if-else-in-where-clause-mysql
+      - https://stackoverflow.com/questions/4284524/how-and-when-to-use-sleep-correctly-in-mysql
+      - Use natas15 to check code validity
+      - Basically just next if statements with the actual request I want to handle to get the password
+      - if the first if succeeds then it exists otherwise it doesn't 
+      - Sleep 2 seconds if the user+pass exists
+      - 8NEDUUxg8kFgPV84uLwvZkGn6okJQ6aq
+
+lvl18 - 
+
+
 
 
 
