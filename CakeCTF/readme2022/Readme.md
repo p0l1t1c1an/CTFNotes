@@ -16,8 +16,8 @@ to go up a directory or going to root by starting with '/'.
 
 What I noticed was the `filepath = os.path.expanduser(filepath)` code. 
 I didn't know what this was so I checked geeksforgeeks and stackoverflow to learn
-and wrote a quick program to test its functionality. It will convert '~' to the users home directory, 
-but will also convert "~{username}" to that users home directory. This last bit seemed useful.
+and wrote a quick program to test its functionality. It will convert '\~' to the users home directory, 
+but will also convert "\~{username}" to that users home directory. This last bit seemed useful.
 However, I don't know all the users or where they link to off the top of my head.
 
 
