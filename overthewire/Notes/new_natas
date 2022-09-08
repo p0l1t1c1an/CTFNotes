@@ -225,4 +225,17 @@ lvl20 - Input asks for username
       - I think this is how its formatted, helps to read the source code provided in depth
       - 89OWrTkGmiLZLv12JY4tLj2c4FW0xn56
 
+lvl21 - There are two websites one contains the password other lets you enter values in post method
+      - Post method adds them as session values
+      - I think I can add anything so I can make an admin value and set it to 1
+      - May need to learn requests post method to pass values
+      - Made python program 
+      - Needed to pass a value of submit="" and admin=1 in dictionary
+      - data = dict in the post call
+      - Pass the cookie from CSS page to main/passwd page
+      - Gets admin rights
+      - 91awVM9oDiUGm33JdzM7RVLBS8bz9n0s
+
+
+
 
