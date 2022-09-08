@@ -200,5 +200,29 @@ lvl19 - 3338302d61646d696e == admin
       - Session Cookie: 3238312d61646d696e or 281-admin
       - guVaZ3ET35LbgbFMoaN5tFcYT1jEP7UH
 
-lvl20 - 
+lvl20 - Input asks for username 
+      - gets b3h863b7r1i5alpjqpgv74ept3 with admin
+      - second time after deleteing gets lum2qp8eai77kbn84i6m9alcts w/ admin
+      - some session set save handler - idk look it up
+      - sets functions to store sessions for user
+      - only using read and write
+      - MYWRITE 55rtlr23b6u77u34o52nt56hrf name|s:4:"root";
+      - encoding for session?
+      - It just generates one with no data q06i56gh2sf19f4hvaigvo0rqk
+                                      - OR p8slku7ca51p915bdu7vdk4hc2
+      - Maybe the alphanumeric encoding does not matter
+      - May be the fields inside matter - ie not trying to bruteforce like previous 
+      - Rather add fields to be written to add an admin field or something
+      - Tried input of "; admin|s:1:"1 which did not work
+      - It specifies size of the string
+      - How is it getting that?
+      - Trying script to input newline char
+      
+      - Script got 2 separate reads 
+      - Read [name admin";]<br>DEBUG: Read [admin|s:1:"1]<br><br />
+      - How to format though
+      - $data .= "$key $value\n"
+      - I think this is how its formatted, helps to read the source code provided in depth
+      - 89OWrTkGmiLZLv12JY4tLj2c4FW0xn56
+
 
