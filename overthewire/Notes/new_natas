@@ -236,6 +236,45 @@ lvl21 - There are two websites one contains the password other lets you enter va
       - Gets admin rights
       - 91awVM9oDiUGm33JdzM7RVLBS8bz9n0s
 
+lvl22 - Enter ?revelio gets you to the password
+      - Need to have admin in the session otherwise you are redirected without ?revelio
+      - I thought the redirect does nothing
+      - I am pretty sure that the redirect would only do something in browser 
+      - https://www.php.net/manual/en/function.header.php
+      - Link confirms as it sends a 302 redirect for browser to handle
+      - Used curl to download the page, it does not redirect, just gets the html of the page
+      - qjA8cOoKFTzJhtV0Fzvt92fgvxVnVRBj
+
+lvl23 - Need string to contain iloveyou and be greater than 10
+      - I can read php but don't know the ins and outs of it like I do with C
+      - https://stackoverflow.com/questions/20761906/why-string-is-greater-or-less-than-the-integer
+      - This says: If the string starts with valid numeric data, this will be the value used.
+      - Otherwise the string is zero 
+      - Seem like I just need to start it with 11 and end with iloveyou
+      - Yup. Just a test of php comparison. "11iloveyou" worked. Why are these easier
+      - Natas would be really good for full stack / back end devs in php and SQL
+      - 0xzF30T9Av8lgXhW7slhFCIsVKAPyl2r
+
+lvl24 - Now it is just strcmp with a censored password
+      - https://www.php.net/manual/en/function.strcmp.php
+      - If you rely on strcmp for safe string comparisons, both parameters must be strings, 
+      - the result is otherwise extremely unpredictable.
+      - I might want to try sending non string values and seeing the results 
+      - Need an output of zero
+      - Messed around with php online here: https://onlinephp.io/
+      - Seems if I sumbit a number as the passwd it just needs be equal to the first letter
+      - No it compares the ord of the first char to the first decimal digit (hex or octal doesn't change)
+      - False gives me the length of the passwd
+      - I think I want it to return null like with array but have tried and did nothing
+      - Interest, passing array in python is not the same as ?passwd[]=hello
+      - That did the trick
+      - Need to see how to pass array properly in python
+      - O9QD9DZBDq1YpswiTM5oqMDaOtuZtAcx
+
+
+
+
+
 
 
 
