@@ -193,7 +193,12 @@ lvl19 - 3338302d61646d696e == admin
       - 2d seems to be constant (it is a hyphen)
       - the first 3 hex numbers are actually just 0-9 
       - Comes out as "###-{username}"
+      - Makes new one each time
+      - Admin might have one stored with username as admin
       
       - Shell/Python script to try bruteforcing and printing password
+      - Session Cookie: 3238312d61646d696e or 281-admin
+      - guVaZ3ET35LbgbFMoaN5tFcYT1jEP7UH
 
+lvl20 - 
 
