@@ -37,3 +37,10 @@ Wrong...
 
 And what do you know its the flag. I suspected this as the program just prints out whether you are right or wrong.
 
+### After the fact 
+
+I looked at the write up for the nimrew CTF.
+I could have used gbd-gef and create a breakpoint after the program loads the flag into memory. 
+I could then check the value. This is cool. I have heard of gdb but have never used it so I probably will write some programs and test it out.
+
+
