@@ -3,12 +3,12 @@
 
 ### What I did to solve this
 
-I loaded up the chall elf/binary into Ghidra
-This is a nim program which I have never seen before
-ghidra is analyzing it as a C program
-Followed the main program as to a NimMainModule
+I loaded up the chall elf/binary into Ghidra.
+This is a nim program which I have never seen before.
+ghidra is analyzing it as a C program.
+Followed the main program as to a NimMainModule.
 
-This takes input and compares with some string loaded from somewhere
+This takes input and compares with some string loaded from somewhere.
 I can up with a few ideas on what I could find out what this memory was:
 - Back track through this code and see the memory/code that loads this 
     - This gets generated through many calls and would use too much of my brain power
