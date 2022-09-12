@@ -192,6 +192,6 @@ Flag: flag{5h31d0n_54y5_7h47_7h3_b357_numb3r_1n_7h3_w0rld_15_73,_h3_15_r16h7!!}
 ```
 
 Wow, this was a lot to write out my though process for something I thought was a lot quicker 
-to and think through during the competition.
+to do and think through during the competition.
 
 
