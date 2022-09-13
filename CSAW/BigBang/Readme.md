@@ -70,7 +70,7 @@ That init vector function generates to things a thing of MAGIC number bits rando
 Then, that iv_a gets printed out to us. I can learn the value of MAGIC by counting the bits. 
 This comes out to be `73 bits`. Then, iv_b is created from iv_a.
 Essentially, if a bit in iv_a is 1 then iv_b has 73 bytes of all 1s and the same for zeros both keeping the order from iv_a.
-So I know exactly what iv_b is when I are given iv_a.
+So I know exactly what iv_b is when I am given iv_a.
 
 
 ### Input 
