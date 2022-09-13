@@ -271,9 +271,20 @@ lvl24 - Now it is just strcmp with a censored password
       - Need to see how to pass array properly in python
       - O9QD9DZBDq1YpswiTM5oqMDaOtuZtAcx
 
+lvl25 - Only input we can send is the ?lang=
+      - This can be used to traverse files 
+      - Code removes instances of '../'
+      - If we put '.../.../..//' it will remove the '../'s to give us a '../'
+      - This then gets used as file output
+      - I can get to the log file entering ?lang=.../.../..//logs/natas25_262nuvc8fjrkusnf0bnp2o6e2d.log
+      - I think I can change my user agent to embed script into the log 
+      - It then code be run
+      - curl "http://natas25.natas.labs.overthewire.org/?lang=../" -A "<?php echo file_get_contents(\"/etc/natas_webpass/natas26\"); ?>" -b "PHPSESSID=262nuvc8fjrkusnf0bnp2o6e2d" -u "natas25:O9QD9DZBDq1YpswiTM5oqMDaOtuZtAcx"
+      - Then, I reload the web browser I have printing the log file
+      - It uses include() in php so php in user agent is run on the server printing the password with the rest of the log file
+      - 8A506rfIAXbKKk68yJeuTuRq4UfcK70k
 
-
-
+lvl26
 
 
 
