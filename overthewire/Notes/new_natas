@@ -284,8 +284,13 @@ lvl25 - Only input we can send is the ?lang=
       - It uses include() in php so php in user agent is run on the server printing the password with the rest of the log file
       - 8A506rfIAXbKKk68yJeuTuRq4UfcK70k
 
-lvl26
-
+lvl26 - So we are in the XSS phase of natas so I am sure I need to load PHP into a file and get it loaded
+      - This site gets coordinates to draw a line and stores drawing into a cookie as base64
+      - Tried to see if changing PHPSESSID could change where file is located but needs to be alaphanumeric only
+      - The php source has a suspect logger class that I don't know what it does but provides a log function
+      - I'm guessing this creates custom method to override/provide logging 
+      - Looking at drawing cookie it is an array of the numbers inputed to imageline()
+      - Need to look at __unserialize() for array 
 
 
 

