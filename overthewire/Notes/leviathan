@@ -1,0 +1,216 @@
+
+Little bit of basic Reverse Engineering
+
+
+leviathan0:leviathan0 
+
+
+Level 0:
+
+Has .backups directory owned by leviathan1
+Has bookmarks.html
+Grep for "leviathan1"
+Found bookmark line saying "the password for leviathan1 is PPIfmI1qsA"
+
+leviathan1:PPIfmI1qsA
+
+Level 1:
+
+There is check executable in home w/ sticky bit for leviathan2 user
+Used objdump on exe and see that it prints wrong password 
+OR seems to run /bin/sh? and would give access as lev2
+Code probably has password - saw sets of words: sex, love, god, secrf
+sex works as password for check command and gives shell as leviathan2
+
+Get password from /etc/leviathan_pass/leviathan2
+
+leviathan2:mEh5PNl10e
+
+
+Went back after I started using ltrace. 
+Could have been done in 5 seconds:
+
+__libc_start_main(0x80491e6, 1, 0xffffdbe4, 0 <unfinished ...>
+printf("password: ")                                = 10
+getchar(0xf7fbe4a0, 0xf7fd6f90, 0x786573, 0x646f67password: test
+) = 116
+getchar(0xf7fbe4a0, 0xf7fd6f74, 0x786573, 0x646f67) = 101
+getchar(0xf7fbe4a0, 0xf7fd6574, 0x786573, 0x646f67) = 115
+strcmp("tes", "sex")                                = 1
+puts("Wrong password, Good Bye ..."Wrong password, Good Bye ...
+)                = 29
++++ exited (status 0) +++
+
+
+Level 2:
+
+Similar to prev level. Has printfile exe that will print out a file.
+But stops me when I try to give it /etc/leviathan_pass/leviathan3
+Says "You can't have that file..."
+
+Trying radare2 to look at the code for FUN!
+
+Gives that message when leviathan2 user can't access the file
+Then, does setuid/setguid and runs cat command on file input string
+Need to format input string to trick the initial check?
+
+My thinking is that I need a symlink to the lev3 file 
+OR pass string w/ space between two files  
+
+Second idea didn't work with just the ".bashrc $lev3file"
+BUT path isn't parsed in access call from tracing just takes whole string given
+
+Looking at access syscall there are some fun things 
+Interesting call outs to not use it before making open call
+Always dereferences symlinks
+Uses real uid/guid not effective
+
+Made testing directory in /tmp
+Made file with space in the name "test testing"
+tracing shows that access call passes but cat command gets it as string
+tries to open 2 files test and test2
+
+symlink test -> /etc/leviathan_pass/leviathan3
+Opens test and fails on test2 
+
+Gives Q0G8j4sakn from the lev3 password file
+
+
+leviathan3:Q0G8j4sakn
+
+
+Level 3:
+
+
+Same exact set up 
+We have level3 program on the home directory
+
+
+Lets see what it does with ltrace:
+
+__libc_start_main(0x80492bf, 1, 0xffffdbe4, 0 <unfinished ...>
+strcmp("h0no33", "kakaka")                          = -1
+printf("Enter the password> ")                      = 20
+fgets(Enter the password> test
+"test\n", 256, 0xf7e2a620)                    = 0xffffd9bc
+strcmp("test\n", "snlprintf\n")                     = 1
+puts("bzzzzzzzzap. WRONG"bzzzzzzzzap. WRONG
+)                          = 19
++++ exited (status 0) +++
+
+
+Looks like the password is just snlprinf
+
+Entering that gives me shell as leviathan4:
+
+Enter the password> snlprintf
+[You've got shell]!
+$whoami
+leviathan4
+
+
+Can just cat the password file:
+
+leviathan4:AgvropI4OA
+
+
+Pretty much just the same as level 1, but trying to obfuscate the password
+Password looks like a printf call and has 2 fake passwords that do nothing
+
+
+
+level 4:
+
+OOOHHH, its different!
+
+We have a .trash directory to explore!
+./bin command in trash that prints binary
+
+01000101 01001011 01001011 01101100 01010100 01000110 00110001 01011000 01110001 01110011 00001010
+
+
+I'm lazy so internet do it for me: 
+
+leviathan5:EKKlTF1Xqs
+
+And entering it in works for the next level!
+
+
+level 5:
+
+Same as prior ones. We have a leviathan5 program
+
+But tries to open /tmp/file.log:
+
+__libc_start_main(0x8049206, 1, 0xffffdbd4, 0 <unfinished ...>
+fopen("/tmp/file.log", "r")                         = 0
+puts("Cannot find /tmp/file.log"Cannot find /tmp/file.log
+)                   = 26
+exit(-1 <no return ...>
++++ exited (status 255) +++
+
+Just symlinked file.log to the lev6 password file
+
+
+leviathan6:YZ55XPVk2l
+
+
+This one makes me think that I over complicated level 2
+
+
+
+level 6:
+
+Same idea with leviathan6 program: 
+
+usage: ./leviathan6 <4 digit code>
+
+Just uses atoi to load up first arg as an int:
+
+__libc_start_main(0x80491d6, 2, 0xffffdbd4, 0 <unfinished ...>
+atoi(0xffffdd26, 0xf7fd6f90, 0xf7c184be, 0xf7fbe4a0) = 1234
+puts("Wrong"Wrong
+)   
+
+Probably then does comparison on the int?
+Need to look at the code
+
+See this line at beginning of main
+
+0x080491ea      c745f4d31b00.  mov dword [var_ch], 0x1bd3
+
+Loads 0x1bd3 (7123) to var_ch 
+
+And After atoi call I see:
+
+cmp dword [var_ch], eax
+
+comparing the return of atoi to var_ch
+
+So lets try entering 7123
+
+And we get shell access
+
+
+leviathan7:8GpZ5f8Hze
+
+
+level 7:
+
+I WIN!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
